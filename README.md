@@ -88,7 +88,7 @@ DELETE
 
 ### How to test functionality without a frontend
 - GET: use your browser
-- POST / PUT / DELETE : 
+- POST / PUT / DELETE :
  - CLI (command line interface) with `curl`
    - e.g. `curl -H "Content-Type: application/json" -X POST -d '{"username":"kate","password":"1234"}' http://localhost:3000/api/login`
    - `-H`: headers. `-X`: verb. `-d`: data (must be of the type specified in headers). http://[address]:[port]/[route_path]
@@ -108,4 +108,3 @@ Once you've recorded your screencast, please *upload it to YouTube as an unliste
 - Routes (25%)
 - Frontend logic and functionality (25%)
 - Design + Bonus features (up to 10 Extra Credit points)
-
