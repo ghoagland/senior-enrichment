@@ -25,12 +25,12 @@ Use at least sequelize, express, react, and redux when creating this app. You ca
 ### DB Design
 
 - Students
-  * have profile info (e.g. name and email)
-  * must be assigned to a campus
+  * have profile info (e.g. name and email) *
+  * must be assigned to a campus *
 
 - Campuses
-  * have info such as a name and image
-  * can have many students assigned (may have none)
+  * have info such as a name and image *
+  * can have many students assigned (may have none) *
 
 ### Views and Functionality
 #### See Wireframes folder for visual
