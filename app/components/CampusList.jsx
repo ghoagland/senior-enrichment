@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
-import store from '../store';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 
-function CampusList() {
+function CampusList(props) {
   return (
     <div>
-      <h1>CAMPUS LIST</h1>
+      <section>
+        <h3>List of Houses:</h3>
+        <ul>
+          {props.campuses.map(campus => {
+            return (
+              <li key={campus.id}>{campus.name}</li>
+            )
+          })}
+        </ul>
+      </section>
     </div>
   )
 }
-export default withRouter(CampusList)
+
+
+//connecting to store
+
+const mapStateToProps = function(state) {
+  return {
+    campuses: state.campuses
+  }
+}
+
+const StatefulCampusList = withRouter(connect(mapStateToProps)(CampusList))
+
+export default StatefulCampusList;

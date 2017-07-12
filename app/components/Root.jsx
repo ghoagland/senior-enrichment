@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import store from '../store';
 import { fetchStudents, fetchCampuses } from '../reducers'
 //import components
+import Navbar from './Navbar'
 import Sidebar from './Sidebar';
 import Home from './Home';
 import CampusList from './CampusList'
@@ -28,8 +29,9 @@ class Root extends Component {
   render () {
     return (
       <div className="container">
+        <Navbar />
         <Sidebar />
-        <div className="col-sm-9">
+        <div className="col-sm-10">
           <main>
             <Switch>
               <Route exact path="/" component={Home} />

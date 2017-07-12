@@ -3,15 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 
 function Sidebar () {
   return (
-    <div className='col-sm-3'>
+    <div className='col-sm-2'>
       <sidebar>
-        <section>
-          <div className="sidebar-header">
-            <h3>
-              <Link to="/">Hogwarts School of Witchcraft and Wizardry</Link>
-            </h3>
-          </div>
-        </section>
         <section>
           <h4>
            <Link to="/campuses">Houses</Link>
