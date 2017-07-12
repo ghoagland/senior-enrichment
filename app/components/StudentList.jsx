@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../store';
 import { withRouter } from 'react-router-dom'
 
 function StudentList(props) {
@@ -17,6 +16,7 @@ function StudentList(props) {
   )
 }
 
+
 //connecting to store
 
 const mapStateToProps = function(state) {
@@ -24,6 +24,7 @@ const mapStateToProps = function(state) {
     students: state.students
   }
 }
+
 
 const StatefulStudentList = withRouter(connect(mapStateToProps)(StudentList))
 

@@ -60,7 +60,7 @@ export function fetchCampuses() {
     return axios.get('/api/campuses')
       .then(res => res.data)
       .then(campuses => {
-        const action = getStudents(campuses);
+        const action = getCampuses(campuses);
         dispatch(action)
       })
   }

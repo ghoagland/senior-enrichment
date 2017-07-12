@@ -42,4 +42,4 @@ export function fetchStudent(studentId) {
 
 // REDUCER
 
-export default function studentReducer(state)
+export default function studentReducer(state){}
