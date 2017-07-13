@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 function StudentList(props) {
   return (
     <div>
-      <h3>List of Students:</h3>
+      <h3>Hogwarts Students:</h3>
       <ul>
         {props.students.map(student => {
           return (
-            <li key={student.id}>{student.name}</li>
+            <li key={student.id}>
+              <Link to={`/students/${student.id}`}>
+                {student.name}
+              </Link>
+            </li>
           )
         })}
       </ul>

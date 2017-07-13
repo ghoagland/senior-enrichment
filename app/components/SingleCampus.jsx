@@ -1,3 +1,6 @@
+//to do: set up so it connects/rereders when there are new campuses
+
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -18,6 +21,7 @@ class SingleCampus extends Component {
             <h1>{currentCampus.name}</h1>
             <img src={currentCampus.image} style={{width:'200px', height:'248px'}} />
           </section>
+          <hr></hr>
           <h3>{currentCampus.name} students:</h3>
           <ul>
           {currentCampusStudents.map(student => {
@@ -44,12 +48,10 @@ class SingleCampus extends Component {
 //connecting to store
 
 const mapStateToProps = function(state, ownProps) {
-  const campusId = Number(ownProps.match.params.campusId);
-  console.log("in mapStatetoprops", state, 'campusId', campusId)
   return {
     students: state.students,
     campuses: state.campuses,
-    currentCampusId: campusId
+    currentCampusId: state.currentCampusId
 
   }
 }

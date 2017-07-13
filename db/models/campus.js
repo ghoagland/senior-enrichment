@@ -11,9 +11,10 @@ const Campus = db.define('campus', {
   image: {
     type: Sequelize.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true
-    }
+    //causing issue with plain file - check docs
+    // validate: {
+    //   isUrl: true
+    // }
   }
 
 });

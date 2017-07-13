@@ -6,7 +6,7 @@ function CampusList(props) {
   return (
     <div>
       <section>
-        <h3>List of Houses:</h3>
+        <h3>Hogwarts Houses:</h3>
         <ul>
           {props.campuses.map(campus => {
             return (

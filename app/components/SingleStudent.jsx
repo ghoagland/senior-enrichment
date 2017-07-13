@@ -1,3 +1,5 @@
+//to do: set up so it connects/rereders when there are new students
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -16,10 +18,9 @@ class SingleStudent extends Component {
     if (currentStudent && currentStudentCampus) {
       return (
         <div>
-          <section>
-            <h1>{currentStudent.name}</h1>
-            <h5>email: {currentStudent.email}</h5>
-          </section>
+          <h1>{currentStudent.name}</h1>
+          <hr></hr>
+          <h5>email: {currentStudent.email}</h5>
           <h5>campus: <Link to={`/campuses/${currentStudentCampus.id}`}>
               {currentStudentCampus.name}
             </Link>
@@ -49,7 +50,7 @@ const mapStateToProps = function(state, ownProps) {
   }
 }
 
-const mapDispatchToProps = function(dispatch, ownProps) {
+const mapDispatchToProps = function(dispatch) {
   return {
     getStudent(studentId) {
       dispatch(getStudent(studentId));
