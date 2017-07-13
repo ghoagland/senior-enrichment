@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 function CampusList(props) {
   return (
@@ -10,7 +10,9 @@ function CampusList(props) {
         <ul>
           {props.campuses.map(campus => {
             return (
-              <li key={campus.id}>{campus.name}</li>
+              <li key={campus.id}>
+                <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+              </li>
             )
           })}
         </ul>

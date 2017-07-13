@@ -37,8 +37,8 @@ class Root extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/campuses" component={CampusList} />
               <Route exact path="/students" component={StudentList} />
-              {/*<Route path="/campuses/:campusId" component={SingleCampus} />
-              <Route path="/students/studentId" component={SingleStudent} />*/}
+              <Route path="/campuses/:campusId" component={SingleCampus} />
+              <Route path="/students/:studentId" component={SingleStudent} />
               <Route path="/winter-jokes" component={WinterJokes} />
             </Switch>
           </main>

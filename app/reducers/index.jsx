@@ -4,8 +4,8 @@ import axios from 'axios';
 const initialState = {
   students: [],
   campuses: [],
-  currentStudent: {},
-  currentCampus: {}
+  currentStudentId: 0,
+  currentCampusId: 0,
 }
 
 // ACTION TYPES
@@ -23,7 +23,7 @@ export function getStudents(students) {
 export function getStudent(studentId, students) {
   const action = {
     type: GET_STUDENT,
-    currentStudent: students.find(elem => elem.id === studentId)
+    currentStudentId: studentId
   };
   return action
 }
@@ -33,13 +33,14 @@ export function getCampuses(campuses) {
   return action;
 }
 
-export function getCampus(campusId, campuses) {
+export function getCampus(campusId) {
   const action = {
     type: GET_CAMPUS,
-    currentStudent: campuses.find(elem => elem.id === campusId)
+    currentCampusId: campusId
   };
   return action
 }
+
 
 
 
@@ -76,7 +77,7 @@ const rootReducer = function(state = initialState, action) {
     case GET_CAMPUSES:
       return { ...state, campuses: action.campuses};
     case GET_CAMPUS:
-      return { ...state, currentCampus: action.currentCampus}
+      return { ...state, currentCampusId: action.currentCampusId}
     default: return state
   }
 };
