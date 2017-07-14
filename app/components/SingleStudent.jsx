@@ -21,7 +21,7 @@ class SingleStudent extends Component {
           <h1>{currentStudent.name}</h1>
           <hr></hr>
           <h5>email: {currentStudent.email}</h5>
-          <h5>campus: <Link to={`/campuses/${currentStudentCampus.id}`}>
+          <h5>house: <Link to={`/campuses/${currentStudentCampus.id}`}>
               {currentStudentCampus.name}
             </Link>
           </h5>

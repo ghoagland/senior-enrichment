@@ -17,6 +17,9 @@ function StudentList(props) {
           )
         })}
       </ul>
+      <button type="button">
+        <Link to="/students/add">Add a new student</Link>
+      </button>
     </div>
   )
 }

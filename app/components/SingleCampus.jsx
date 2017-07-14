@@ -56,8 +56,7 @@ const mapStateToProps = function(state, ownProps) {
   }
 }
 
-const mapDispatchToProps = function(dispatch, ownProps) {
-  //const campusId = Number(ownProps.match.params.campusId);
+const mapDispatchToProps = function(dispatch) {
   return {
     getCampus(campusId) {
       dispatch(getCampus(campusId));

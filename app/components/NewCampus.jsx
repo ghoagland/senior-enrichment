@@ -7,12 +7,12 @@ function NewCampus (props){
   return (
     <form onSubmit={props.handleSubmit}>
       <div className="form-group">
-        <label>Create a new campus</label>
+        <label>Create a new house</label>
         <input
           className="form-control"
           type="text"
           name="campusName"
-          placeholder="Enter campus name"
+          placeholder="Enter house name"
         />
         <input
           className="form-control"
@@ -22,7 +22,7 @@ function NewCampus (props){
         />
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-default">Create Campus</button>
+        <button type="submit" className="btn btn-default">Create House</button>
       </div>
     </form>
   )

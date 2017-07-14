@@ -25,7 +25,7 @@ router.get('/:studentId', (req, res, next) => {
 router.post('/', (req, res, next) => {
   Campus.findOrCreate({
     where: {
-      name: req.body.campus
+      name: req.body.campusName
     }
   })
   .then(values => {
@@ -41,14 +41,19 @@ router.post('/', (req, res, next) => {
   .catch(next);
 })
 
-router.put('/:studentId', (req, res) => {
-  Student.findById(req.params.studentId, {rejectOnEmpty: true})
-  .then(student => student.update(req.body))
-  .then(updatedStudent => res.status(201).json({
+router.put('/:studentId', (req, res, next) => {
+  Campus.findOrCreate({where: {name: req.body.campusName}})
+  .then(values => {
+    var campus = values[0];
+    return Student.findById(+req.params.studentId)
+    .then(student => student.setCampus(campus))
+    .then(student => student.update(req.body))
+    .then(updatedStudent => res.status(202).json({
       message: 'Updated successfully',
       student: updatedStudent
-    })
-  )
+    }))
+    .catch(next);
+  })
   .catch(function(err) {
     res.status(404).json(err.message);
   })

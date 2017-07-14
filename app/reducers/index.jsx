@@ -15,6 +15,9 @@ const GET_CAMPUSES = 'GET_CAMPUSES';
 const GET_CAMPUS = 'GET_CAMPUS';
 
 const GET_NEW_CAMPUS = 'GET_NEW_CAMPUS';
+const GET_NEW_STUDENT = 'GET_NEW_STUDENT';
+const EDIT_CAMPUS = 'EDIT_CAMPUS';
+const EDIT_STUDENT = 'EDIT_STUDENT';
 
 // ACTION CREATORS
 export function getStudents(students) {
@@ -46,6 +49,19 @@ export function getCampus(campusId) {
 export function getNewCampus (campus) {
   const action = {type: GET_NEW_CAMPUS, campus};
   return action;
+}
+
+export function getNewStudent (student) {
+  const action = {type: GET_NEW_STUDENT, student};
+  return action;
+}
+
+export function editCampus (editedCampus) {
+  const action = {type: EDIT_CAMPUS, editedCampus}
+}
+
+export function editStudent (editedStudent) {
+  const action = {type: EDIT_STUDENT, editedStudent}
 }
 
 
@@ -85,6 +101,39 @@ export function addCampus(campus) {
   }
 }
 
+export function addStudent(studentWithCampus) {
+  return function thunk(dispatch) {
+    return axios.post('/api/students', studentWithCampus)
+      .then(res => res.data)
+      .then(newStudent => {
+        const action = getNewStudent(newStudent);
+        return action;
+      });
+  }
+}
+
+export function putCampus(campus) {
+  return function thunk(dispatch) {
+    return axios.put(`/api/campuses/${campus.id}`, campus)
+      .then(res => res.data)
+      .then(editedCampus => {
+        const action = editCampus(editedCampus);
+        return action;
+      });
+  }
+}
+
+export function putStudent(student) {
+  return function thunk(dispatch) {
+    return axios.put(`/api/students/${student.id}`, student)
+      .then(res => res.data)
+      .then(editedStudent => {
+        const action = editStudent(editedStudent);
+        return action;
+      });
+  }
+}
+
 
 const rootReducer = function(state = initialState, action) {
   switch(action.type) {
@@ -95,9 +144,17 @@ const rootReducer = function(state = initialState, action) {
     case GET_CAMPUSES:
       return {...state, campuses: action.campuses};
     case GET_CAMPUS:
-      return {...state, currentCampusId: action.currentCampusId}
+      return {...state, currentCampusId: action.currentCampusId};
     case GET_NEW_CAMPUS:
-      return {...state, campuses: [...campuses, action.campus]}
+      return {...state, campuses: [...campuses, action.campus]};
+    case GET_NEW_STUDENT:
+      return {...state, students: [...students, action.student]}
+    case EDIT_CAMPUS:
+      const index = state.campuses.findIndex(elem => elem.id === action.editedCampus.id)
+      return {...state, campuses: [...state.campuses.slice(0, index), action.editedCampus, state.campuses.slice(index+1)] }
+    case EDIT_STUDENT:
+      const idx = state.students.findIndex(elem => elem.id === action.editedCampus.id)
+      return {...state, students: [...state.students.slice(0, idx), action.editedstudent, state.students.slice(idx+1)] }
     default: return state
   }
 };

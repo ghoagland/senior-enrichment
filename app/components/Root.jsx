@@ -13,6 +13,8 @@ import SingleCampus from './SingleCampus';
 import SingleStudent from './SingleStudent';
 import NewCampus from './NewCampus';
 import NewStudent from './NewStudent';
+import EditCampus from './EditCampus';
+import EditStudent from './EditStudent';
 import WinterJokes from './WinterJokes';
 
 
@@ -40,7 +42,9 @@ class Root extends Component {
               <Route exact path="/campuses" component={CampusList} />
               <Route exact path="/students" component={StudentList} />
               <Route exact path="/campuses/add" component={NewCampus} />
-              {/*<Route exact path="/students/add" component={NewStudent} />*/}
+              <Route exact path="/students/add" component={NewStudent} />
+              <Route exact path="/campuses/:campusId/edit" component={EditCampus} />
+              <Route exact path="/students/:studentId/edit" component={EditStudent} />
               <Route path="/campuses/:campusId" component={SingleCampus} />
               <Route path="/students/:studentId" component={SingleStudent} />
               <Route path="/winter-jokes" component={WinterJokes} />
