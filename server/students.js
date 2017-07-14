@@ -41,6 +41,18 @@ router.post('/', (req, res, next) => {
   .catch(next);
 })
 
+router.put('/:studentId/remove-campus', (req, res, next) => {
+  Student.findById(+req.params.studentId)
+    .then(student => student.setCampus(null))
+    .then(updatedStudent => res.status(202).json({
+      message: 'Updated successfully',
+      student: updatedStudent
+    }))
+    .catch(function(err) {
+      res.status(404).json(err.message);
+    })
+});
+
 router.put('/:studentId', (req, res, next) => {
   Campus.findOrCreate({where: {name: req.body.campusName}})
   .then(values => {
@@ -58,6 +70,7 @@ router.put('/:studentId', (req, res, next) => {
     res.status(404).json(err.message);
   })
 });
+
 
 router.delete('/:studentId', (req, res) => {
   Student.findById(req.params.studentId, {rejectOnEmpty: true})
