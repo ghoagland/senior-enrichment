@@ -178,10 +178,13 @@ export function destroyStudent (studentId) {
 export function removeCampusFromStudent (student) {
   return function thunk(dispatch) {
     return axios.put(`/api/students/${student.id}/remove-campus`, student)
-    .then(res => res.data)
+    .then(res => {
+      return res.data.student
+    })
     .then(updatedStudent => {
       const action = removeStudentCampus(updatedStudent)
-      return action;
+      console.log(updatedStudent)
+      dispatch(action);
     })
   }
 }
@@ -220,7 +223,7 @@ const rootReducer = function(state = initialState, action) {
 
     case REMOVE_STUDENT_CAMPUS:
       const removedIndex = state.students.findIndex(elem => elem.id === action.student.id);
-      return {...state, students: [state.students.slice(0, removedIndex), student, state.students.slice(removedIndex+1)]};
+      return {...state, students: [state.students.slice(0, removedIndex), action.student, state.students.slice(removedIndex+1)]};
 
     default: return state
 

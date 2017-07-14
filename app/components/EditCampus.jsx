@@ -4,7 +4,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { putCampus, destroyCampus, removeCampusFromStudent } from '../store';
 
 function EditCampus(props){
-  console.log(props)
   const campus = props.campuses.find(elem => elem.id === props.currentCampusId)
   const currentCampusStudents = props.students.filter(elem => elem.campusId === props.currentCampusId);
   if (campus) {
