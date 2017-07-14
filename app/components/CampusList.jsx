@@ -29,7 +29,7 @@ function CampusList(props) {
 
 const mapStateToProps = function(state) {
   return {
-    campuses: state.campuses
+    campuses: state.campusReducer.campuses
   }
 }
 

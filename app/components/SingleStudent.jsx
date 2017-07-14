@@ -12,7 +12,6 @@ class SingleStudent extends Component {
   }
 
   render() {
-    console.log("studentid", this.props.currentStudentId)
     const currentStudent = this.props.students.find(elem => elem.id === this.props.currentStudentId)
     if (currentStudent) {
       const currentStudentCampus = this.props.campuses.find(elem => elem.id === currentStudent.campusId)
@@ -43,15 +42,14 @@ class SingleStudent extends Component {
   }
 }
 
-
 //connecting to store
 
 const mapStateToProps = function(state, ownProps) {
   const studentId = Number(ownProps.match.params.studentId);
   return {
-    students: state.students,
-    campuses: state.campuses,
-    currentStudentId: state.currentStudentId
+    students: state.studentReducer.students,
+    campuses: state.campusReducer.campuses,
+    currentStudentId: state.studentReducer.currentStudentId
 
   }
 }
@@ -65,6 +63,5 @@ const mapDispatchToProps = function(dispatch) {
 }
 
 const StatefulSingleStudent = withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleStudent))
-
 
 export default StatefulSingleStudent

@@ -17,9 +17,6 @@ import EditCampus from './EditCampus';
 import EditStudent from './EditStudent';
 import WinterJokes from './WinterJokes';
 
-
-
-
 //Have a Sidebar and multiple main components
 class Root extends Component {
 

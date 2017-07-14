@@ -1,47 +1,53 @@
-import React from 'react';
+import React, { Component }from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import { putStudent, destroyStudent } from '../reducers';
+import { putStudent, destroyStudent, getStudent } from '../reducers';
+import store from '../store';
 
-function EditStudent(props){
+class EditStudent extends Component {
 
-  const student = props.students.find(elem => elem.id === props.currentStudentId)
-  //const campus = props.campuses.find(elem => elem.id === student.campusId);
-  if (student) {
-    return (
-      <form onSubmit={props.handleSubmit}>
-        <div className="form-group">
-          <label>Edit {student.name}</label>
-          <input
-            className="form-control"
-            type="text"
-            name="studentName"
-            defaultValue={student.name}
-          />
-          <input
-            className="form-control"
-            type="text"
-            name="studentEmail"
-            defaultValue={student.email}
-          />
-          <select name="campusSelect">
-          {props.campuses.map(singleCampus => {
-            return (
-              <option key={singleCampus.id}>{singleCampus.name}</option>
-            )
-          })}
-        </select>
-        </div>
-        <div className="form-group">
-          <button type="submit" className="btn btn-default">Submit</button>
-        </div>
-        <div className="form-group">
-          <button onClick={props.handleClick} type="button" className="btn btn-danger"><Link to='/'>Delete Student</Link></button>
-        </div>
-      </form>
-    )
-  } else {
-    return (<h1>Student not found</h1>)
+  componentDidMount () {
+    this.props.loadStudent();
+  }
+
+  render () {
+    const student = this.props.students.find(elem => elem.id === this.props.currentStudentId)
+    if (student) {
+      return (
+        <form onSubmit={this.props.handleSubmit}>
+          <div className="form-group">
+            <label>Edit {student.name}</label>
+            <input
+              className="form-control"
+              type="text"
+              name="studentName"
+              defaultValue={student.name}
+            />
+            <input
+              className="form-control"
+              type="text"
+              name="studentEmail"
+              defaultValue={student.email}
+            />
+            <select name="campusSelect">
+            {this.props.campuses.map(singleCampus => {
+              return (
+                <option key={singleCampus.id}>{singleCampus.name}</option>
+              )
+            })}
+          </select>
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-default">Submit</button>
+          </div>
+          <div className="form-group">
+            <button onClick={this.props.handleClick} type="button" className="btn btn-danger"><Link to='/'>Delete Student</Link></button>
+          </div>
+        </form>
+      )
+    } else {
+      return (<h1>Student not found</h1>)
+    }
   }
 }
 
@@ -49,9 +55,9 @@ function EditStudent(props){
 function mapStateToProps (state, ownProps) {
   const studentId = +ownProps.match.params.studentId;
   return {
-    currentStudentId: studentId,
-    campuses: state.campuses,
-    students: state.students
+    currentStudentId: state.studentReducer.currentStudentId,
+    campuses: state.campusReducer.campuses,
+    students: state.studentReducer.students
   }
 }
 
@@ -69,6 +75,9 @@ function mapDispatchToProps (dispatch, ownProps) {
       event.preventDefault()
       const id = +ownProps.match.params.studentId;
       dispatch(destroyStudent(id))
+    },
+    loadStudent() {
+      dispatch(getStudent(+ownProps.match.params.studentId))
     }
   }
 }

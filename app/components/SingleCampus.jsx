@@ -52,9 +52,9 @@ class SingleCampus extends Component {
 
 const mapStateToProps = function(state, ownProps) {
   return {
-    students: state.students,
-    campuses: state.campuses,
-    currentCampusId: state.currentCampusId
+    students: state.studentReducer.students,
+    campuses: state.campusReducer.campuses,
+    currentCampusId: state.campusReducer.currentCampusId
 
   }
 }
