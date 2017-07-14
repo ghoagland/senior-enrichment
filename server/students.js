@@ -75,7 +75,7 @@ router.put('/:studentId', (req, res, next) => {
 router.delete('/:studentId', (req, res) => {
   Student.findById(req.params.studentId, {rejectOnEmpty: true})
   .then(student => student.destroy())
-  .then(() => res.status(204).end())
+  .then(destroyedStudent => res.status(204).json(destroyedStudent.id))
   .catch(function(err) {
     res.status(404).json(err.message);
   });

@@ -33,6 +33,6 @@ const mapStateToProps = function(state) {
   }
 }
 
-const StatefulCampusList = withRouter(connect(mapStateToProps)(CampusList))
+const StatefulCampusList = connect(mapStateToProps)(withRouter(CampusList))
 
 export default StatefulCampusList;

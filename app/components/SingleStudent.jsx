@@ -12,10 +12,10 @@ class SingleStudent extends Component {
   }
 
   render() {
+    console.log("studentid", this.props.currentStudentId)
     const currentStudent = this.props.students.find(elem => elem.id === this.props.currentStudentId)
-    const currentStudentCampus = this.props.campuses.find(elem => elem.id === currentStudent.campusId)
-
     if (currentStudent) {
+      const currentStudentCampus = this.props.campuses.find(elem => elem.id === currentStudent.campusId)
       return (
         <div>
           <h1>{currentStudent.name}</h1>
@@ -51,7 +51,7 @@ const mapStateToProps = function(state, ownProps) {
   return {
     students: state.students,
     campuses: state.campuses,
-    currentStudentId: studentId
+    currentStudentId: state.currentStudentId
 
   }
 }

@@ -28,7 +28,7 @@ export function getStudents(students) {
   return action;
 }
 
-export function getStudent(studentId, students) {
+export function getStudent(studentId) {
   const action = {
     type: GET_STUDENT,
     currentStudentId: studentId
@@ -115,7 +115,7 @@ export function addCampus(campus) {
       .then(res => res.data)
       .then(newCampus => {
         const action = getNewCampus(newCampus);
-        return action;
+        dispatch(action);
       });
   }
 }
@@ -126,7 +126,7 @@ export function addStudent(studentWithCampus) {
       .then(res => res.data)
       .then(newStudent => {
         const action = getNewStudent(newStudent);
-        return action;
+        dispatch(action);
       });
   }
 }
@@ -134,10 +134,10 @@ export function addStudent(studentWithCampus) {
 export function putCampus(campus) {
   return function thunk(dispatch) {
     return axios.put(`/api/campuses/${campus.id}`, campus)
-      .then(res => res.data)
+      .then(res => res.data.campus)
       .then(editedCampus => {
         const action = editCampus(editedCampus);
-        return action;
+        dispatch(action);
       });
   }
 }
@@ -145,10 +145,10 @@ export function putCampus(campus) {
 export function putStudent(student) {
   return function thunk(dispatch) {
     return axios.put(`/api/students/${student.id}`, student)
-      .then(res => res.data)
+      .then(res => res.data.student)
       .then(editedStudent => {
         const action = editStudent(editedStudent);
-        return action;
+        dispatch(action);
       });
   }
 }
@@ -159,7 +159,7 @@ export function destroyCampus (campusId) {
       .then(res => res.data)
       .then(deletedCampus => {
         const action = deleteCampus(deletedCampus.id);
-        return action;
+        dispatch(action);
       });
   }
 }
@@ -170,7 +170,7 @@ export function destroyStudent (studentId) {
       .then(res => res.data)
       .then(deletedStudent => {
         const action = deleteStudent(deletedStudent.id);
-        return action;
+        dispatch(action);
       });
   }
 }
@@ -183,7 +183,6 @@ export function removeCampusFromStudent (student) {
     })
     .then(updatedStudent => {
       const action = removeStudentCampus(updatedStudent)
-      console.log(updatedStudent)
       dispatch(action);
     })
   }
@@ -195,35 +194,51 @@ const rootReducer = function(state = initialState, action) {
     case GET_STUDENTS:
       return {...state, students: action.students};
     case GET_STUDENT:
-      return {...state, currentStudent: action.currentStudent};
+      return {...state, currentStudentId: action.currentStudentId};
     case GET_CAMPUSES:
       return {...state, campuses: action.campuses};
     case GET_CAMPUS:
       return {...state, currentCampusId: action.currentCampusId};
     case GET_NEW_CAMPUS:
-      return {...state, campuses: [...campuses, action.campus]};
+      return {...state, campuses: [...state.campuses, action.campus]};
     case GET_NEW_STUDENT:
-      return {...state, students: [...students, action.student]}
+      return {...state, students: [...state.students, action.student]}
 
     case EDIT_CAMPUS:
       const index = state.campuses.findIndex(elem => elem.id === action.editedCampus.id);
-      return {...state, campuses: [...state.campuses.slice(0, index), action.editedCampus, state.campuses.slice(index+1)] }
+      return {...state, campuses: [...state.campuses.slice(0, index), action.editedCampus, ...state.campuses.slice(index+1)] }
 
     case EDIT_STUDENT:
-      const idx = state.students.findIndex(elem => elem.id === action.editedCampus.id);
-      return {...state, students: [...state.students.slice(0, idx), action.editedstudent, state.students.slice(idx+1)] }
+      const idx = state.students.findIndex(elem => elem.id === action.editedStudent.id);
+      return {...state, students: [...state.students.slice(0, idx), action.editedStudent, ...state.students.slice(idx+1)] }
 
     case DELETE_CAMPUS:
-      const deleteCampusIndex = state.campuses.findIndex(elem => elem.id === action.campusId);
-      return {...state, campuses: [state.campuses.slice(0, deleteCampusIndex), state.campuses.slice(deleteCampusIndex+1)]}
+      const deleteCampusIndex = state.campuses.findIndex(elem => elem.id === state.currentCampusId);
+      console.log(deleteCampusIndex, state.campuses)
+      const deletedCampusState = {
+        ...state,
+        campuses: (deleteCampusIndex + 1) < state.campuses.length
+            ? [
+              ...state.campuses.slice(0, deleteCampusIndex),
+              ...state.campuses.slice(deleteCampusIndex + 1)
+              ]
+            : state.campuses.slice(0, deleteCampusIndex)
+      }
+      return deletedCampusState;
+
 
     case DELETE_STUDENT:
-      const deleteStudentIndex = state.students.findIndex(elem => elem.id === action.studentId);
-      return {...state, students: [state.students.slice(0, deleteStudentIndex), state.students.slice(deleteStudentIndex+1)]}
+      const deleteStudentIndex = state.students.findIndex(elem => elem.id === state.currentStudentId);
+      const deleteStudentState = {
+        ...state,
+        students: ([...state.students.slice(0, deleteStudentIndex), ...state.students.slice(deleteStudentIndex+1)])
+      }
+      return deleteStudentState;
 
     case REMOVE_STUDENT_CAMPUS:
       const removedIndex = state.students.findIndex(elem => elem.id === action.student.id);
-      return {...state, students: [state.students.slice(0, removedIndex), action.student, state.students.slice(removedIndex+1)]};
+      console.log(removedIndex, state.students, action.student)
+      return {...state, students: [...state.students.slice(0, removedIndex), action.student, ...state.students.slice(removedIndex+1)]};
 
     default: return state
 

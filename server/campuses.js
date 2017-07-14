@@ -47,7 +47,7 @@ router.delete('/:campusId', (req, res) => {
   const id = +req.params.campusId
   Campus.findById(id, {rejectOnEmpty: true})
   .then(campus => campus.destroy())
-  .then(() => res.status(204).end())
+  .then((destroyedCampus) => res.status(204).json(destroyedCampus))
   .catch(function(err) {
     res.status(404).json(err.message);
   });
