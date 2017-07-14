@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { putCampus } from '../reducers';
+import { withRouter, Link } from 'react-router-dom';
+import { putCampus, destroyCampus } from '../reducers';
 
 function EditCampus(props){
   console.log(props)
@@ -28,6 +28,9 @@ function EditCampus(props){
         <div className="form-group">
           <button type="submit" className="btn btn-default">Submit</button>
         </div>
+        <div className="form-group">
+          <button onClick={props.handleClick} type="button" className="btn btn-danger"><Link to='/'>Delete Campus</Link></button>
+        </div>
       </form>
     )
   } else {
@@ -53,6 +56,12 @@ function mapDispatchToProps (dispatch, ownProps) {
       const name = event.target.campusName.value;
       const image = event.target.campusImage.value;
       dispatch(putCampus({ name, image, id }))
+    },
+
+    handleClick(event) {
+      event.preventDefault();
+      const id = +ownProps.match.params.campusId;
+      dispatch(destroyCampus(id))
     }
   }
 }

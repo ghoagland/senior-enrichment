@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { putStudent } from '../reducers';
+import { withRouter, Link } from 'react-router-dom';
+import { putStudent, destroyStudent } from '../reducers';
 
 function EditStudent(props){
 
@@ -35,6 +35,9 @@ function EditStudent(props){
         <div className="form-group">
           <button type="submit" className="btn btn-default">Submit</button>
         </div>
+        <div className="form-group">
+          <button onClick={props.handleClick} type="button" className="btn btn-danger"><Link to='/'>Delete Student</Link></button>
+        </div>
       </form>
     )
   } else {
@@ -61,6 +64,11 @@ function mapDispatchToProps (dispatch, ownProps) {
       const email = event.target.studentEmail.value;
       const campusName = event.target.campusSelect.value
       dispatch(putStudent({ name, email, id, campusName }))
+    },
+    handleClick(event) {
+      event.preventDefault()
+      const id = +ownProps.match.params.studentId;
+      dispatch(destroyStudent(id))
     }
   }
 }

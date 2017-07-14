@@ -15,16 +15,22 @@ class SingleStudent extends Component {
     const currentStudent = this.props.students.find(elem => elem.id === this.props.currentStudentId)
     const currentStudentCampus = this.props.campuses.find(elem => elem.id === currentStudent.campusId)
 
-    if (currentStudent && currentStudentCampus) {
+    if (currentStudent) {
       return (
         <div>
           <h1>{currentStudent.name}</h1>
           <hr></hr>
           <h5>email: {currentStudent.email}</h5>
-          <h5>house: <Link to={`/campuses/${currentStudentCampus.id}`}>
-              {currentStudentCampus.name}
-            </Link>
+          <h5>house: {currentStudentCampus ? (
+              <Link to={`/campuses/${currentStudentCampus.id}`}>
+                {currentStudentCampus.name}
+              </Link>
+              ) : 'none'
+          }
           </h5>
+          <button type="button">
+            <Link to={`/students/${this.props.currentStudentId}/edit`}>Edit student</Link>
+          </button>
         </div>
       )
     } else {

@@ -18,6 +18,8 @@ const GET_NEW_CAMPUS = 'GET_NEW_CAMPUS';
 const GET_NEW_STUDENT = 'GET_NEW_STUDENT';
 const EDIT_CAMPUS = 'EDIT_CAMPUS';
 const EDIT_STUDENT = 'EDIT_STUDENT';
+const DELETE_CAMPUS = 'DELETE_CAMPUS';
+const DELETE_STUDENT = 'DELETE_STUDENT';
 
 // ACTION CREATORS
 export function getStudents(students) {
@@ -64,7 +66,13 @@ export function editStudent (editedStudent) {
   const action = {type: EDIT_STUDENT, editedStudent}
 }
 
+export function deleteCampus (deletedCampusId) {
+  const action = {type: DELETE_CAMPUS, deletedCampusId}
+}
 
+export function deleteStudent (deletedStudentId) {
+  const action = {type: DELETE_STUDENT, deletedStudentId}
+}
 
 
 // THUNK CREATORS
@@ -134,6 +142,28 @@ export function putStudent(student) {
   }
 }
 
+export function destroyCampus (campusId) {
+  return function thunk(dispatch) {
+    return axios.delete(`/api/campuses/${campusId}`)
+      .then(res => res.data)
+      .then(deletedCampus => {
+        const action = deleteCampus(deletedCampus.id);
+        return action;
+      });
+  }
+}
+
+export function destroyStudent (studentId) {
+  return function thunk(dispatch) {
+    return axios.delete(`/api/students/${studentId}`)
+      .then(res => res.data)
+      .then(deletedStudent => {
+        const action = deleteStudent(deletedStudent.id);
+        return action;
+      });
+  }
+}
+
 
 const rootReducer = function(state = initialState, action) {
   switch(action.type) {
@@ -149,12 +179,22 @@ const rootReducer = function(state = initialState, action) {
       return {...state, campuses: [...campuses, action.campus]};
     case GET_NEW_STUDENT:
       return {...state, students: [...students, action.student]}
+
     case EDIT_CAMPUS:
       const index = state.campuses.findIndex(elem => elem.id === action.editedCampus.id)
       return {...state, campuses: [...state.campuses.slice(0, index), action.editedCampus, state.campuses.slice(index+1)] }
+
     case EDIT_STUDENT:
       const idx = state.students.findIndex(elem => elem.id === action.editedCampus.id)
       return {...state, students: [...state.students.slice(0, idx), action.editedstudent, state.students.slice(idx+1)] }
+
+    case DELETE_CAMPUS:
+      const deleteCampusIndex = state.campuses.findIndex(elem => elem.id === action.campusId)
+      return {...state, campuses: [state.campuses.slice(0, deleteCampusIndex), state.campuses.slice(deleteCampusIndex+1)]}
+
+    case DELETE_STUDENT:
+      const deleteStudentIndex = state.students.findIndex(elem => elem.id === action.studentId)
+      return {...state, students: [state.students.slice(0, deleteStudentIndex), state.students.slice(deleteStudentIndex+1)]}
     default: return state
   }
 };

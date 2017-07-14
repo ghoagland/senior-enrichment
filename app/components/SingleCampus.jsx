@@ -32,6 +32,9 @@ class SingleCampus extends Component {
             )
           })}
           </ul>
+          <button type="button">
+            <Link to={`/campuses/${this.props.currentCampusId}/edit`}>Edit house</Link>
+          </button>
         </div>
       )
     }

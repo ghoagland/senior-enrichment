@@ -44,7 +44,8 @@ router.put('/:campusId', (req, res) => {
 })
 
 router.delete('/:campusId', (req, res) => {
-  Campus.findById(req.params.campusId, {rejectOnEmpty: true})
+  const id = +req.params.campusId
+  Campus.findById(id, {rejectOnEmpty: true})
   .then(campus => campus.destroy())
   .then(() => res.status(204).end())
   .catch(function(err) {
